@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+	<head>
+		<!--声明当前页面的编码集charset=GBK，gb2312(中文编码)，UTF-8(国际编码)-->
+		<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+		<!--当前页面的三要素-->
+		<title>网页图片延时加载技术 - Arry老师</title>
+		<meta name="Keywords" content="图片延时加载,html,css,js">
+		<meta name="description" content="">
+
+		<!--css , js-->
+		<!--css:层叠样式表 ，一件美丽的外衣-->
+		<!--内嵌样式-->
+		<style type="text/css">
+			*{margin:0px;padding:0px;}
+			img{border:0px;display:block;border-radius:2px;}
+			body{font-size:12px;color:#666;font-family:"微软雅黑";background:#f9f9f9;}
+			/*以“.”开头的css样式 称之为 类样式*/
+			.top{width:1000px;height:66px;margin:0 auto;}
+			.top .logo{float:left;}
+			.top .qq{float:right;line-height:66px;
+				font-size:26px;font-weight:bold;}
+			.top .qq span{color:#ff5f25;}
+
+			.pic{width:906px;height:1000px;margin:30px auto;}
+			.pic ul li{list-style:none;float:left;margin-right:12px;margin-bottom:15px;border-radius:2px; 
+			/*css3*/
+			box-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);}
+			.pic ul li p{width:288px;height:35px;text-align:center;line-height:35px;background:#FFF;}
+			/*兼容所有浏览器的*/
+			.pic ul li a:hover img{opacity:0.8;filter:alpha(opacity=80);}
+		</style>
+
+		<!--引入jquery文件-->
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<!--引入jquery.lazyload 主要是延时加载-->
+		<script type="text/javascript" src="js/jquery.lazyload.js"></script>
+		<script type="text/javascript">
+			var Img = "images/lazyload.gif";
+			jQuery.noConflict()(function(){
+				jQuery.noConflict()("img").lazyload({placeholder:Img,effect:"fadeIn"});
+			});
+		</script>
+
+	</head>
+<body>
+
+	<!--div: 层，容器，盒子-->
+	<!--以class="自定义名称" 称之为 类样式-->
+	<div class="top">
+		<div class="logo">
+			<!--img : 图片标签src,alt,width,height-->
+			<a href="http://web.tanzhouedu.com/"><img src="images/logo.png" alt="潭州学院" width="215" height="66"/></a>
+		</div>
+		<div class="qq">加群学习网页制作：<a style="text-decoration:none;"   href="http://shang.qq.com/wpa/qunwpa?idkey=3287b5c29abb9452edafd2325da439a5c0e2648749820ee8382031b14671c0d6"><span> 309606788</span></a></div>
+	</div>
+
+	<div class="pic">
+		<ul>
+			<li>
+				<a href="#"><img src="images/1.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/2.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/3.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/4.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/5.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/6.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/7.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/8.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/9.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/10.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/11.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/12.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/13.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/14.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/15.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/16.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/17.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/18.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/19.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/20.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/21.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/10.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/11.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/12.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/13.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/14.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/15.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/16.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/17.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/18.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/19.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/20.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/21.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/10.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/11.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/12.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/13.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/14.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/15.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/16.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/17.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/18.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/19.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/20.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+			<li>
+				<a href="#"><img src="images/21.jpg" alt="" width="288" height="180"/></a>
+				<p>绿丛小花精美摄影</p>
+			</li>
+
+
+
+		</ul>
+	</div>
+
+</body>
+</html>

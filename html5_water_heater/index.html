@@ -1,0 +1,897 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>HTML5/CSS3热水器 加热动画</title>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,400,300,600);
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,600i,700");
+* {
+    box-sizing: border-box;
+}
+body {
+    height: 100vh;
+    font-family: 'Open Sans';
+    background-color: #DFDBE5;
+    background-color: #bd8578;
+    background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%23000000' fill-opacity='0.4'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.wrapper {
+    margin: 50px auto;
+    width: 1000px;
+    text-align: center;
+}
+.heater {
+    position: relative;
+    display: inline-block;
+}
+.outlet {
+    content: '';
+    width: 90px;
+    height: 25px;
+    background-image: -webkit-repeating-linear-gradient(right, #aaa59f, #aaa59f 45%, #54514c 50%, #54514c 60%, #f7f6f2 70%, #f7f6f2 79%, #54514c 100%);
+    background-image: repeating-linear-gradient(to left, #aaa59f, #aaa59f 45%, #54514c 50%, #54514c 60%, #f7f6f2 70%, #f7f6f2 79%, #54514c 100%);
+    position: absolute;
+    border-radius: 10%;
+    top: -20px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.frame {
+    position: relative;
+    height: 450px;
+    width: 235px;
+    background: #dce1e7;
+    box-shadow: 0px 0px 2px 2px #dbdbdb, inset 0px 0px 6px 1px #faf8f9;
+}
+.frame:before,
+.frame:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    border-bottom: 7px solid transparent;
+    border-top: 7px solid transparent;
+    height: 437px;
+    width: 14px;
+}
+.frame:before {
+    left: -28px;
+    border-right: 14px solid #c1c5cf;
+}
+.frame:after {
+    right: -28px;
+    border-left: 14px solid #c1c5cf;
+}
+.frame .flame-checker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    top: 40%;
+    width: 130px;
+    height: 90px;
+    border-radius: 10%;
+    overflow: hidden;
+    background: #6e2323;
+    box-shadow: 0px 0px 2px 2px #dbdbdb, 0px 0px 6px 1px #faf8f9;
+}
+.frame .one {
+    left: 10%;
+}
+.frame .two {
+    left: 30%;
+}
+.frame .three {
+    left: 50%;
+}
+.frame .four {
+    left: 70%;
+}
+.frame .five {
+    left: 90%;
+}
+.frame .knobs {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    left: 48%;
+    top: 74%;
+    width: 145px;
+    height: 90px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.firepit {
+    position: absolute;
+    bottom: 0;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.fire {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+.fire .flame {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: .9;
+    width: 100%;
+    height: 100%;
+    border-bottom-right-radius: 70%;
+    border-bottom-left-radius: 70%;
+    border-top-left-radius: 70%;
+    -webkit-transform: rotate(-45deg) skew(-10deg, -10deg);
+    transform: rotate(-45deg) skew(-10deg, -10deg);
+    background-color: #ff2200;
+    background-image: -webkit-linear-gradient(top right, rgba(255, 34, 0, 0.9), rgba(255, 106, 0, 0.7));
+    background-image: linear-gradient(to bottom left, rgba(255, 34, 0, 0.9), rgba(255, 106, 0, 0.7));
+    z-index: 1;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: burn-left;
+    animation-name: burn-left;
+    -webkit-animation-duration: 300ms;
+    animation-duration: 300ms;
+}
+.fire .flame:nth-of-type(2n) {
+    -webkit-animation-name: burn-right;
+    animation-name: burn-right;
+    -webkit-animation-duration: 400ms;
+    animation-duration: 400ms;
+}
+.fire .flame:nth-of-type(2) {
+    height: 80%;
+    width: 80%;
+    left: 10%;
+    background-color: #ff6a00;
+    background-image: -webkit-linear-gradient(top right, rgba(255, 106, 0, 0.1), rgba(255, 200, 0, 0.1));
+    background-image: linear-gradient(to bottom left, rgba(255, 106, 0, 0.1), rgba(255, 200, 0, 0.1));
+    z-index: 2;
+}
+.fire .flame:nth-of-type(3) {
+    height: 50%;
+    width: 50%;
+    left: 25%;
+    background-image: -webkit-linear-gradient(top right, #ffc800, white);
+    background-image: linear-gradient(to bottom left, #ffc800, white);
+    z-index: 3;
+}
+.fire .flame:nth-of-type(4) {
+    height: 30%;
+    width: 30%;
+    left: 35%;
+    background-color: white;
+    background-image: -webkit-linear-gradient(top right, rgba(255, 255, 255, 0.3), rgba(0, 55, 255, 0.9));
+    background-image: linear-gradient(to bottom left, rgba(255, 255, 255, 0.3), rgba(0, 55, 255, 0.9));
+    opacity: 1;
+    z-index: 4;
+}
+.spark {
+    position: absolute;
+    bottom: 46%;
+    left: 15%;
+    width: 3px;
+    height: 3px;
+    background-color: rgba(255, 106, 0, 0.4);
+    -webkit-animation-name: fly-up-burnout-1;
+    animation-name: fly-up-burnout-1;
+    -webkit-animation-duration: 6s;
+    animation-duration: 6s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-delay: .4s;
+    animation-delay: .4s;
+}
+.spark:nth-of-type(2n) {
+    -webkit-animation-name: fly-up-burnout-2;
+    animation-name: fly-up-burnout-2;
+    -webkit-animation-duration: 8.4s;
+    animation-duration: 8.4s;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+.spark:nth-of-type(3n) {
+    -webkit-animation-delay: 1.9s;
+    animation-delay: 1.9s;
+    -webkit-animation-duration: 8s;
+    animation-duration: 8s;
+    left: 55%;
+}
+.spark:nth-of-type(4n) {
+    -webkit-animation-delay: 2.6s;
+    animation-delay: 2.6s;
+    -webkit-animation-duration: 7s;
+    animation-duration: 7s;
+    left: 88%;
+}
+.spark:nth-of-type(5n) {
+    -webkit-animation-delay: 1.4s;
+    animation-delay: 1.4s;
+    -webkit-animation-duration: 7s;
+    animation-duration: 7s;
+    left: 22%;
+}
+.spark:nth-of-type(6n) {
+    -webkit-animation-delay: 3.2s;
+    animation-delay: 3.2s;
+    left: 61%;
+}
+.spark:nth-of-type(7n) {
+    -webkit-animation-delay: .8s;
+    animation-delay: .8s;
+    -webkit-animation-duration: 5s;
+    animation-duration: 5s;
+    left: 64%;
+}
+.spark:nth-of-type(8n) {
+    -webkit-animation-delay: 5s;
+    animation-delay: 5s;
+    left: 19%;
+}
+.spark:nth-of-type(9n) {
+    -webkit-animation-delay: 4s;
+    animation-delay: 4s;
+    -webkit-animation-duration: 6.8s;
+    animation-duration: 6.8s;
+    left: 22%;
+}
+.spark:nth-of-type(10n) {
+    -webkit-animation-delay: 5.2s;
+    animation-delay: 5.2s;
+    left: 61%;
+}
+.spark:nth-of-type(11n) {
+    -webkit-animation-delay: 3.5s;
+    animation-delay: 3.5s;
+    -webkit-animation-duration: 8s;
+    animation-duration: 8s;
+    left: 81%;
+}
+.spark:nth-of-type(12n) {
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+    left: 85%;
+}
+.knob-wrapper {
+    border-radius: 50%;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: -webkit-linear-gradient(#ACA79B, #F9F8F7);
+    background: linear-gradient(#ACA79B, #F9F8F7);
+}
+.knob-wrapper:before,
+.knob-wrapper:after {
+    position: absolute;
+    font-family: "Open Sans";
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 3px 2px 5px #fff, -3px -2px 5px #fff;
+}
+.knob-wrapper:before {
+    content: 'Cold';
+    top: 0;
+    left: -35px;
+}
+.knob-wrapper:after {
+    content: 'Hot';
+    top: -27px;
+    right: 21px;
+}
+.knob-wrapper .line {
+    height: 30px;
+    width: 6px;
+    position: absolute;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    left: 50%;
+    -webkit-transform-origin: bottom;
+    transform-origin: bottom;
+}
+.knob-wrapper .line:nth-child(1) {
+    -webkit-transform: translateX(-50%) rotate(-90deg);
+    transform: translateX(-50%) rotate(-90deg);
+}
+.knob-wrapper .line:nth-child(2) {
+    -webkit-transform: translateX(-50%) rotate(-72deg);
+    transform: translateX(-50%) rotate(-72deg);
+}
+.knob-wrapper .line:nth-child(3) {
+    -webkit-transform: translateX(-50%) rotate(-54deg);
+    transform: translateX(-50%) rotate(-54deg);
+}
+.knob-wrapper .line:nth-child(4) {
+    -webkit-transform: translateX(-50%) rotate(-36deg);
+    transform: translateX(-50%) rotate(-36deg);
+}
+.knob-wrapper .line:nth-child(5) {
+    -webkit-transform: translateX(-50%) rotate(-18deg);
+    transform: translateX(-50%) rotate(-18deg);
+}
+.knob-wrapper .line:nth-child(6) {
+    -webkit-transform: translateX(-50%) rotate(0deg);
+    transform: translateX(-50%) rotate(0deg);
+}
+.knob-wrapper .line:nth-child(7) {
+    -webkit-transform: translateX(-50%) rotate(18deg);
+    transform: translateX(-50%) rotate(18deg);
+}
+.knob-wrapper .line:nth-child(8) {
+    -webkit-transform: translateX(-50%) rotate(36deg);
+    transform: translateX(-50%) rotate(36deg);
+}
+.knob-wrapper .line:nth-child(9) {
+    -webkit-transform: translateX(-50%) rotate(54deg);
+    transform: translateX(-50%) rotate(54deg);
+}
+.knob-wrapper .line:nth-child(10) {
+    -webkit-transform: translateX(-50%) rotate(72deg);
+    transform: translateX(-50%) rotate(72deg);
+}
+.knob-wrapper .line:nth-child(11) {
+    -webkit-transform: translateX(-50%) rotate(90deg);
+    transform: translateX(-50%) rotate(90deg);
+}
+.knob-wrapper .line:nth-child(12) {
+    -webkit-transform: translateX(-50%) rotate(108deg);
+    transform: translateX(-50%) rotate(108deg);
+}
+.knob-wrapper .line:nth-child(13) {
+    -webkit-transform: translateX(-50%) rotate(126deg);
+    transform: translateX(-50%) rotate(126deg);
+}
+.knob-wrapper .line:nth-child(14) {
+    -webkit-transform: translateX(-50%) rotate(144deg);
+    transform: translateX(-50%) rotate(144deg);
+}
+.bigdot {
+    width: 6px;
+    height: 6px;
+    background: black;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.smalldot {
+    width: 4px;
+    height: 4px;
+    background: #a2a6af;
+    border-radius: 50%;
+    position: absolute;
+    top: -8px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.mini {
+    width: 50px;
+    height: 50px;
+}
+.mini:before,
+.mini:after {
+    position: absolute;
+    text-shadow: 3px 2px 5px #fff, -3px -2px 5px #fff;
+    font-family: "Open Sans";
+    font-weight: bold;
+}
+.mini:before {
+    content: 'Winter';
+    top: -32px;
+    left: 0;
+    font-size: 12px;
+}
+.mini:after {
+    content: 'Summer';
+    top: -5px;
+    left: 48px;
+    font-size: 10px;
+}
+.line2 {
+    height: 25px;
+    width: 6px;
+    position: absolute;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    left: 50%;
+    -webkit-transform-origin: bottom;
+    transform-origin: bottom;
+}
+.line2:nth-child(2) {
+    -webkit-transform: translateX(-50%) rotate(80deg);
+    transform: translateX(-50%) rotate(80deg);
+}
+.knob,
+.knob2 {
+    border-radius: 50%;
+    position: absolute;
+    left: .5rem;
+    top: .5rem;
+    bottom: .5rem;
+    right: .5rem;
+    background: -webkit-linear-gradient(left, #D8D1C2, #999385 40%, #CFC9BC 41%, #CFC9BC 59%, #F0EEE8 60%, #D9D3C3 75%);
+    background: linear-gradient(90deg, #D8D1C2, #999385 40%, #CFC9BC 41%, #CFC9BC 59%, #F0EEE8 60%, #D9D3C3 75%);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    box-shadow: inset 0 1px 1px 1px #CFC9BC, 0 0 1px 1px #979593;
+}
+.knob:before,
+.knob2:before {
+    display: block;
+    content: "";
+    width: .25rem;
+    height: 12px;
+    background: slategray;
+    box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 0 1px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    border-radius: 0 0 .25rem .25rem;
+    opacity: .8;
+}
+.case {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    bottom: 8%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: auto;
+    background: -webkit-linear-gradient(#ACA79B, #F9F8F7);
+    background: linear-gradient(#ACA79B, #F9F8F7);
+    padding: 1.5em;
+    border-radius: 2px;
+}
+.case:after {
+    content: 'Temp';
+    position: absolute;
+    bottom: -18px;
+    font-family: "Open Sans";
+    font-weight: bold;
+    text-shadow: 3px 2px 5px #fff, -3px -2px 5px #fff;
+}
+.case .screen {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: 37px;
+    width: 37px;
+    position: absolute;
+    background: #0063F0;
+    box-shadow: 1px 0px 6px #000000 inset, 0px -1px 2px #000, 0px 2px 2px #fff;
+}
+.case .screen .temp {
+    color: #ffde38;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: Roboto;
+}
+.connectors {
+    z-index: -1;
+    content: '';
+    width: 100px;
+    height: 15px;
+    background-image: -webkit-repeating-linear-gradient(right, #4b453e, #70604d 45%, #605f5c 70%, #565346 79%, #333230 100%);
+    background-image: repeating-linear-gradient(to left, #4b453e, #70604d 45%, #605f5c 70%, #565346 79%, #333230 100%);
+    position: absolute;
+    border-radius: 10%;
+    bottom: -7px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.connectors:before {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    left: 9px;
+    height: 17px;
+    width: 17px;
+    border-radius: 10%;
+    background-image: -webkit-repeating-linear-gradient(left, #b6b1ad, #b6b1ad 50%, #f4f5f7 50%, #f4f5f7 100%);
+    background-image: repeating-linear-gradient(to right, #b6b1ad, #b6b1ad 50%, #f4f5f7 50%, #f4f5f7 100%);
+}
+.connectors:after {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    right: 9px;
+    height: 17px;
+    width: 17px;
+    border-radius: 10%;
+    background-image: -webkit-repeating-linear-gradient(left, #b6b1ad, #b6b1ad 50%, #f4f5f7 50%, #bbbdc1 90%, #7c8493 100%);
+    background-image: repeating-linear-gradient(to right, #b6b1ad, #b6b1ad 50%, #f4f5f7 50%, #bbbdc1 90%, #7c8493 100%);
+}
+@-webkit-keyframes burn-left {
+    0%, 100% {
+        -webkit-transform: rotate(-45deg) skew(-10deg, -10deg) scale(1);
+        transform: rotate(-45deg) skew(-10deg, -10deg) scale(1);
+    }
+    30%,
+    60% {
+        -webkit-transform: rotate(-44deg) skew(-12deg, -12deg) scale(1.01);
+        transform: rotate(-44deg) skew(-12deg, -12deg) scale(1.01);
+    }
+}
+@keyframes burn-left {
+    0%, 100% {
+        -webkit-transform: rotate(-45deg) skew(-10deg, -10deg) scale(1);
+        transform: rotate(-45deg) skew(-10deg, -10deg) scale(1);
+    }
+    30%,
+    60% {
+        -webkit-transform: rotate(-44deg) skew(-12deg, -12deg) scale(1.01);
+        transform: rotate(-44deg) skew(-12deg, -12deg) scale(1.01);
+    }
+}
+@-webkit-keyframes burn-right {
+    0%, 100% {
+        -webkit-transform: rotate(-45deg) skew(-10deg, -10deg) scale(1);
+        transform: rotate(-45deg) skew(-10deg, -10deg) scale(1);
+    }
+    30%,
+    60% {
+        -webkit-transform: rotate(-46deg) skew(-6deg, -6deg) scale(1.01);
+        transform: rotate(-46deg) skew(-6deg, -6deg) scale(1.01);
+    }
+}
+@keyframes burn-right {
+    0%, 100% {
+        -webkit-transform: rotate(-45deg) skew(-10deg, -10deg) scale(1);
+        transform: rotate(-45deg) skew(-10deg, -10deg) scale(1);
+    }
+    30%,
+    60% {
+        -webkit-transform: rotate(-46deg) skew(-6deg, -6deg) scale(1.01);
+        transform: rotate(-46deg) skew(-6deg, -6deg) scale(1.01);
+    }
+}
+@-webkit-keyframes fly-up-burnout-1 {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    33% {
+        -webkit-transform: translate(12px, -70px);
+        transform: translate(12px, -70px);
+    }
+    66% {
+        -webkit-transform: translate(0, -140px);
+        transform: translate(0, -140px);
+        opacity: .6;
+    }
+    100% {
+        -webkit-transform: translate(6px, -200px);
+        transform: translate(6px, -200px);
+        opacity: 0;
+    }
+}
+@keyframes fly-up-burnout-1 {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    33% {
+        -webkit-transform: translate(12px, -70px);
+        transform: translate(12px, -70px);
+    }
+    66% {
+        -webkit-transform: translate(0, -140px);
+        transform: translate(0, -140px);
+        opacity: .6;
+    }
+    100% {
+        -webkit-transform: translate(6px, -200px);
+        transform: translate(6px, -200px);
+        opacity: 0;
+    }
+}
+@-webkit-keyframes fly-up-burnout-2 {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    50% {
+        -webkit-transform: translate(-10px, -80px);
+        transform: translate(-10px, -80px);
+    }
+    80% {
+        -webkit-transform: translate(-4px, -140px);
+        transform: translate(-4px, -140px);
+        opacity: .6;
+    }
+    100% {
+        -webkit-transform: translate(-6px, -160px);
+        transform: translate(-6px, -160px);
+        opacity: 0;
+    }
+}
+@keyframes fly-up-burnout-2 {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    50% {
+        -webkit-transform: translate(-10px, -80px);
+        transform: translate(-10px, -80px);
+    }
+    80% {
+        -webkit-transform: translate(-4px, -140px);
+        transform: translate(-4px, -140px);
+        opacity: .6;
+    }
+    100% {
+        -webkit-transform: translate(-6px, -160px);
+        transform: translate(-6px, -160px);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+<body>
+<script src="js/jquery-1.11.1.min.js"></script>
+<div class="wrapper">
+    <div class="heater">
+        <div class="outlet"></div>
+        <div class="frame">
+            <div class="flame-checker">
+                <div class='firepit one'>
+                    <div id="fire" class='fire'>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                    </div>
+                </div>
+                <div class='firepit two'>
+                    <div id="fire" class='fire'>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                    </div>
+                </div>
+                <div class='firepit three'>
+                    <div id="fire" class='fire'>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                    </div>
+                </div>
+                <div class='firepit four'>
+                    <div class='fire'>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                    </div>
+                </div>
+                <div class='firepit five'>
+                    <div class='fire'>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='flame'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                        <div class='spark'></div>
+                    </div>
+                </div>
+            </div>
+            <div class="knobs">
+                <div class="knob-wrapper">
+                    <div class="dots">
+                        <div class='line'><span class="bigdot"></span>
+                        </div>
+                        <div class='line'><span class="smalldot"></span>
+                        </div>
+                        <div class='line'><span class="smalldot"></span>
+                        </div>
+                        <div class='line'><span class="smalldot"></span>
+                        </div>
+                        <div class='line'><span class="smalldot"></span>
+                        </div>
+                        <div class='line'><span class="bigdot"></span>
+                        </div>
+                        <div class='line'><span class="smalldot"></span>
+                        </div>
+                        <div class='line'><span class="smalldot"></span>
+                        </div>
+                        <div class='line'><span class="smalldot"></span>
+                        </div>
+                        <div class='line'><span class="smalldot"></span>
+                        </div>
+                        <div class='line'><span class="bigdot"></span>
+                        </div>
+                    </div>
+                    <div id="knob" class="knob"></div>
+                </div>
+                <div class="knob-wrapper mini">
+                    <div class="dots2">
+                        <div class='line2'><span class="bigdot"></span>
+                        </div>
+                        <div class='line2'><span class="bigdot"></span>
+                        </div>
+                    </div>
+                    <div id="knob2" class="knob"></div>
+                </div>
+            </div>
+            <div class="case">
+                <div class="screen">
+                    <div id="temp" class="temp">50</div>
+                </div>
+            </div>
+        </div>
+        <div class="connectors"></div>
+    </div>
+</div>
+<script>
+$(function() {
+    var rotationSnap = 80;
+    var fireHeight = document.querySelectorAll('.fire');
+    var knob = document.getElementById('knob');
+    var temp = document.getElementById('temp');
+    var fire2 = document.querySelector('.two');
+    var fire4 = document.querySelector('.four');
+    var maxRotation = 180;
+	/*
+    Draggable.create("#knob", {
+        type: "rotation",
+        bounds: {
+            minRotation: -90,
+            maxRotation: 90
+        },
+        onDrag: dragUpdate,
+        throwProps: true,
+        onThrowUpdate: dragUpdate,
+    });
+
+    Draggable.create("#knob2", {
+        type: "rotation",
+        bounds: {
+            minRotation: 0,
+            maxRotation: 80
+        },
+        onDrag: funcUpdate,
+        throwProps: true,
+        onThrowUpdate: funcUpdate,
+        liveSnap: true,
+        snap: function(endValue) {
+            console.log("was here");
+            return Math.round(endValue / rotationSnap) * rotationSnap;
+        }
+    });
+	*/
+
+    function funcUpdate() {
+        var val = (knob2._gsTransform.rotation / maxRotation);
+        var percent = val * 100;
+        if (percent == 0) {
+            fire2.style.display = 'block';
+            fire4.style.display = 'block';
+        }
+        if (percent > 0) {
+            fire2.style.display = 'none';
+            fire4.style.display = 'none';
+        }
+    }
+
+    function dragUpdate() {
+        var val = (knob._gsTransform.rotation / maxRotation);
+        var percent = val * 100;
+        if (percent > 0) {
+            percent = percent + 50;
+        }
+        percent = (percent > 100) ? 100 : percent;
+        if (percent < 0) {
+            percent = Math.abs(-50 + Math.abs(percent));
+        }
+        percent = (percent < 0) ? 0 : percent;
+
+        TweenLite.set(fireHeight, {
+            height: "auto"
+        })
+        TweenLite.to(fireHeight, 0.2, {
+            height: Math.floor(percent),
+            width: Math.floor(percent)
+        })
+        temp.innerHTML = Math.floor(percent);
+    }
+
+});
+</script>
+</body>
+</html>

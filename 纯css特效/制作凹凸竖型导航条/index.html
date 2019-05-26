@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><!---->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--页面编码 utf-8国际编码  gbk,gb2312中文-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--页面三要素-->
+<title>使用DIV+CSS制作凹凸竖型导航条</title>
+
+
+<style type="text/css">
+
+ul,li,div{margin:0;padding:0;}
+.box{width:220px;}
+.tit{width:178px;height:52px;background:url(images/txt.jpg) no-repeat 0 0;}
+
+.list{background:url(images/bg.jpg) repeat-y;width:200px;}
+.list ul{padding:10px 0;background:url(images/foot.jpg) no-repeat 0 bottom;}
+.list ul li{width:200px;}
+.list ul li a{font-weight:bold;text-decoration:none;color:#333;font-size:12px;background:url(images/a.jpg) no-repeat 13px -54px; display:block;text-indent:67px;height:54px;line-height:54px;}
+
+.list ul li a:hover{background:url(images/a.jpg) no-repeat 13px 0;color:#FF9900}
+
+.list ul li a ..cur{background:url(images/a.jpg) no-repeat 13px 0;color:#FF9900}
+
+</style>
+
+</head>
+
+<body>
+<!--
+div 盒子 容器 层
+class="自定义名称" 只能使用字母开头 不能使用中文 数字 特殊字符（@$%$%^&）
+-->
+<div class="box">
+	<div class="tit"></div>
+    <div class="list">
+    	<ul>
+        	<li><a href="#">关于我们</a></li>
+        	<li><a href="#" class="cur">企业文化</a></li>
+        	<li><a href="#">联系我们</a></li>
+        	<li><a href="#">支付方式</a></li>
+        </ul> 
+    </div>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+/*公共样式*/
+
+.main_body {
+    min-width: 320px;
+}
+
+.layui-elem-quote.title {
+    padding: 10px 15px;
+    margin-bottom: 0;
+}
+
+.layui-tab-more {
+    position: relative;
+    z-index: 99;
+    background: #fff;
+}
+
+.layui-layer-tab .layui-layer-title span.layui-layer-tabnow {
+    height: 42px !important;
+}
+
+.layui-layer-tab .layui-layer-title span {
+    min-width: 45px !important;
+}

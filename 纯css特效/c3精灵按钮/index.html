@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/anniu.css" rel="stylesheet" type="text/css">
+    <link href="css/basic.css" rel="stylesheet" type="text/css">
+    <script language="javascript" src="js/index.js"></script>
+    <script language="javascript" src="js/hm.js"></script>
+    <script language="javascript" src="js/basic.js"></script>
+    <script language="javascript" src="js/jquery.min.js"></script>
+    <script language="javascript" src="js/ss.js"></script>
+</head>
+<body>
+<div class="box">
+    <div class="link link-mmiss">
+        <span class="icon"></span>
+        <a href="https://www.cczin.cn/" class="button" data-title="立即进入游戏">
+            <span class="line line-top"></span>
+            <span class="line line-left"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            立即进入
+        </a>
+    </div>
+    <div class="link link-play">
+        <span class="icon"></span>
+        <a href="https://www.cczin.cn/product/" class="button" data-title="立即进入邮箱">
+            <span class="line line-top"></span>
+            <span class="line line-left"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            立即进入
+        </a>
+    </div>
+    <div class="link link-touch">
+        <span class="icon"></span>
+        <a href="https://www.cczin.cn/" class="button" data-title="禁止提示">
+            <span class="line line-top"></span>
+            <span class="line line-left"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            立即进入
+        </a>
+    </div>
+    <div class="tip">
+        <em></em>
+        <span></span>
+    </div>
+    <div>
+        <video src="mp4/xuanchuan.mp4" controls="controls" width="500px" height="400px" autoplay="autoplay"></video>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".link .button").hover(function(){
+            var title = $(this).attr("data-title");
+            $(".tip em").text(title);
+            var pos = $(this).offset().left;
+            var dis = ($(".tip").outerWidth()-$(this).outerWidth())/2;
+            var f=pos-dis;
+            $(".tip").css({"left":f+"px"}).animate({"top":195,"opacity":1},300);
+        },function(){
+            $(".tip").animate({"top":160,"opacity":0},300);
+        })
+    })
+</script>
+
+<link href="css/index.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="js/index.js"></script>
+<span class="tel fontyh disno" id="righttel"><a href="javascript:void(0);"><i class="icon"></i>购买这套源码</a></span>
+<aside class="contact fontyh disyes" id="rightcontact"><i class="close_contact icon"></i>
+    <ul>
+        <li class="qq" onclick="javascrtpt:window.open(&#39;http://wpa.qq.com/msgrd?v=3&amp;uin=3392401300&amp;site=http://www.yj99.cn/&amp;menu=yes&#39;)" style="cursor:pointer;"><i class="icon"></i>
+            <p>客服QQ</p>
+            <button onclick="javascrtpt:window.open(&#39;http://wpa.qq.com/msgrd?v=3&amp;uin=3392401300&amp;site=http://www.yj99.cn/&amp;menu=yes&#39;)" class="fontyh" id="pigcmsqq">点击咨询</button>
+        </li>
+        <li class="goto trial">
+            <a href="http://www.cczin.cn/yjadmin/" target="_blank">
+                <div class="imgIcon"><img src="img/jm.png" alt=""></div>
+                <p style="color:#F44949">点击进入后台</p>
+                <p style="color:#333">共<strong class="red">7</strong>套模板</p>
+                <p style="color:#333">后台账号：test<br>后台密码：test</p>
+            </a>
+        </li>
+        <li class="goto trial">
+            <a href="http://www.cczin.cn/" target="_blank"><div class="imgIcon"><img src="img/gwc.png" alt=""></div><p style="color:#ffa800">购买这套程序</p></a>
+        </li>
+        <li class="tel"><p><i class="icon"></i>电话咨询</p><p><span>17688002551</span></p></li>
+        <li class="goto scanCode"><div class="imgIcon"><img src="img/ewm.jpg" width="90" alt=""></div><p>扫码关注</p></li>
+    </ul>
+    <div class="goTop"><p><i class="icon"></i></p><p>返回顶部</p></div>
+</aside>
+<!--咨询E-->
+
+<script language="javascript">
+    if(document.getElementById("rightcontact")){
+        document.getElementById("rightcontact").className="contact fontyh disyes";
+        document.getElementById("righttel").className="tel fontyh disno";
+    }
+</script>
+
+<script language="javascript">
+    $(".prolist .u1 .l1").mouseenter(function () {
+        $(this).find('.d1').eq(0).stop().animate({'top': '6px'}, 200);
+    });
+    $(".prolist .u1 .l1").mouseleave(function () {
+        $(this).find('.d1').eq(0).stop().animate({'top': '-50px'}, 200);
+    });
+</script>
+
+</body>
+</html>

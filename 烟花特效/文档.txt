@@ -1,0 +1,247 @@
+**属性设计**
+
+烟花应有的三个状态状态：
+
+- 升空
+- 等待炸裂
+- 炸裂后
+
+烟花：发射点（x，y），爆炸点(xEnd，yEnd)，升空后等待炸裂时间（wait），炸裂后微粒个数（count），烟花半径（radius）
+
+烟花炸裂后微粒：自身位置（x，y），自身大小（size），自身速度（rate），最大烟花半径（radius）。
+
+config：为全局变量，以及控制参数，包括画布宽高，设定烟花属性等。
+
+**设定全局变量**
+
+
+
+```js
+const config = { width: 360,
+height: 600,
+canvases: ['bg', 'firework'],
+skyColor: '210, 60%, 5%, 0.2)',
+fireworkTime:{min:30,max:60},
+//烟花参数本身有默认值 传入undefined则使用默认参数
+fireworkOpt:{
+x: undefined, y: undefined,
+xEnd: undefined, yEnd: undefined,
+count: 300,	//炸裂后粒子数
+wait: undefined,	//消失后 => 炸裂 等待时间
+}
+
+```
+
+###  
+
+### **构建微粒类** 
+
+
+
+```js
+class Particle{
+//默认值写法
+constructor({x, y, size = 1, radius = 1.2} = {}){ this.x = x;
+this.y = y; this.size = size;
+
+this.rate = Math.random(); //每个微粒移动的速度都是随机不同的
+this.angle = Math.PI * 2 * Math.random(); //每个微粒的偏移角度
+
+//每次微粒移动速度分解为横纵坐标的移动。
+this.vx = radius * Math.cos(this.angle) * this.rate; this.vy = radius * Math.sin(this.angle) * this.rate;
+}
+
+go(){
+this.x += this.vx; this.y += this.vy;
+this.vy += 0.02; //重力影响 y越大实际越偏下
+
+//空气阻力
+this.vx *= 0.98;
+this.vy *= 0.98;
+}
+
+//画出微粒的位置
+render(ctx){
+this.go(); ctx.beginPath();
+ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); ctx.fill();
+}
+}
+
+```
+
+
+
+**构建烟花类**
+
+
+
+```js
+class Firework{
+constructor({x, y = config.height, xEnd, yEnd, count = 300, wait} = {}){
+//烟花自身属性
+this.x = x || config.width / 8 + Math.random() * config.width * 3 / 4; this.y = y;
+this.xEnd = xEnd || this.x;
+this.yEnd = yEnd || config.width / 8 + Math.random() * config.width * 3 / 8; this.size = 2;
+this.velocity = -3;
+
+this.opacity = 0.8;
+this.color = `hsla(${360 * Math.random() | 0},80%,60%,1)`; this.wait = wait || 30 + Math.random() * 30;
+//微粒个数等
+this.count = count; this.particles = []; this.createParticles();
+this.status = 1;
+}
+//创建微粒
+createParticles(){
+for(let i = 0;i < this.count; ++i){
+this.particles.push(new Particle({x:this.xEnd, y:this.yEnd}));
+}
+}
+//升空
+rise(){
+this.y += this.velocity * 1; this.velocity += 0.005; //升空时产生的阻力
+//烟花升空到目标位置开始渐隐
+if(this.y - this.yEnd <= 50){
+this.opacity = (this.y - this.yEnd) / 50;
+}
+//如果到了目标位置 就开始第二个状态
+if(this.y <= this.yEnd){ this.status = 2;
+}
+}
+
+//渲染烟花 烟花所有动作完成之后返回false
+render(ctx){
+switch(this.status){ case 1: //升空ctx.save();
+ctx.beginPath(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = this.opacity; ctx.translate(this.x, this.y); ctx.scale(0.8, 2.3);
+ctx.translate(-this.x, -this.y); ctx.fillStyle = this.color;
+ctx.arc(this.x + Math.sin(Math.PI * 2 * Math.random()) / 1.2, this.y, this.size, 0, Math.PI * 2, false);
+ctx.fill(); ctx.restore();
+
+this.rise(); return true; break;
+case 2: //烟花消失阶段，等待炸裂
+if(--this.wait <= 0){
+this.opacity = 1;
+this.status = 3;
+}
+return true; break;
+case 3: //炸裂之后 渲染烟花微粒
+ctx.save();
+ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = this.opacity; ctx.fillStyle = this.color;
+for(let i = 0;i < this.particles.length;++i){ this.particles[i].render(ctx);
+}
+ctx.restore(); this.opacity -= 0.01; return this.opacity > 0; break;
+default: return false;
+}
+}
+
+```
+
+
+
+**放烟花**
+
+
+
+```js
+const canvas = { init: function(){
+//一些属性的设定 可以不用管
+this.setProperty(); this.renderBg();
+
+//循环体 **主要
+this.loop();
+},
+setProperty: function(){ this.fireworks = []; this.width = config.width; this.height = config.height;
+this.fireworkTime = (config.fireworkTime.min + (config.fireworkTime.max - config.fireworkTime.min) * Math.random()) | 0;
+
+this.bgCtx = document.querySelector('#bg').getContext('2d'); this.fireworkCtx = document.querySelector('#firework').getContext('2d');
+},
+renderBg(){
+this.bgCtx.fillStyle = 'hsla(210, 60%, 5%, 0.9)' this.bgCtx.fillRect(0, 0, this.width, this.height);
+loop(){
+requestAnimationFrame(this.loop.bind(this)); this.fireworkCtx.clearRect(0, 0, this.width, this.height);
+
+//随机创建烟花
+if(--this.fireworkTime <= 0){
+this.fireworks.push(new Firework(config.fireworkOpt));
+//每次到点之后重新设置烟花产生时间 （|0转化为整数）
+this.fireworkTime = (config.fireworkTime.min + (config.fireworkTime.max - config.fireworkTime.min) * Math.random()) | 0;
+}
+
+for(let i = this.fireworks.length - 1; i >= 0; --i){
+//渲染烟花 （若返回值为false则移除烟花）
+!this.fireworks[i].render(this.fireworkCtx) && this.fireworks.splice(i,1);
+}
+
+}
+}
+canvas.init();
+
+```
+
+###  
+
+### **完善** 
+
+
+
+![img](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+
+此时烟花是这样的，感觉少了点小尾巴。
+
+
+
+现在我们每一帧都是清除了画布，如果要加上小尾巴其实也很简单，每一帧都不要清除画布，而是覆盖一层新的有透明度的天空上去。
+
+
+
+```js
+//canvas.loop方法
+
+// this.fireworkCtx.clearRect(0, 0, this.width, this.height); this.fireworkCtx.fillStyle = config.skyColor; this.fireworkCtx.fillRect(0,0,this.width,this.height);
+
+```
+
+![img](https://mmbiz.qpic.cn/mmbiz_gif/aVp1YC8UV0fiavvXf9t03nGHdVbG1TpLBhiaiberEfAicP7FvUAj9w50TeYFtB4byowr1TTBAxibssIsDbOzR1sgcqw/640?wx_fmt=gif&tp=webp&wxfrom=5&wx_lazy=1)
+
+这时就变成这样了。但是，还是缺少了在爆炸瞬间天空变亮的场景。那么在画烟花的时候，先会获取一下烟花的颜色以及透明度。
+
+
+
+```js
+// *****Firework constructor
+// this.color = `hsla(${360 * Math.random() | 0},80%,60%,1)`; this.hue = 360 * Math.random() | 0;
+this.color = `hsla(${this.hue},80%,60%,1)`;
+
+// *****Firework 新增实例方法
+getSkyColor(){
+const skyColor = {
+//只有炸裂阶段才返回亮度
+lightness: this.status == 3 ? this.opacity : 0 , hue: this.hue
+};
+return skyColor;
+}
+// *****config 修改config的skyColor
+// skyColor: 'hsla(210, 60%, 5%, 0.2)',
+skyColor: 'hsla({hue}, 60%, {lightness}%, 0.2)',
+
+// canvas.loop方法
+//this.fireworkCtx.fillStyle = config.skyColor;
+//每次替换色调与亮度值。
+this.fireworkCtx.fillStyle = config.skyColor.replace('{lightness}', 5 + this.skyColor.lightness * 15).replace('{hue}' , this.skyColor.hue);
+
+this.skyColor = { //新增
+lightness: 0,
+hue: 210
+};
+for(let i = this.fireworks.length - 1; i >= 0; --i){
+//新增 天空颜色为最亮的烟花的颜色
+this.skyColor = this.skyColor.lightness >= this.fireworks[i].getSkyColor().lightness ? this.skyColor : this.fireworks[i].getSkyColor();
+!this.fireworks[i].render(this.fireworkCtx) && this.fireworks.splice(i,1);
+}
+
+```
+
+![img](https://mmbiz.qpic.cn/mmbiz_gif/aVp1YC8UV0fiavvXf9t03nGHdVbG1TpLBck2bvA1deActKYaGq99LbQqdm6F2UdTAP5g5PMNVSntdMbEFaj9bTA/640?wx_fmt=gif&tp=webp&wxfrom=5&wx_lazy=1)
+
+到现在就算是大功告成了。
+
+[完整项目源码](https://github.com/NewNewKing/SmallRomance)

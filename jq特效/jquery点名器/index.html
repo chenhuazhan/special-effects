@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>jquery点名器</title>
+	<style>
+		.main{
+			width:970px;
+			height:600px;
+			//background:url('images.jpg') center top;
+			margin:0 auto;
+			position: relative;
+		}
+
+		.div1{
+			width: 350px;
+			height: 100px;
+			border:1px dashed #ff0;
+			position:absolute;
+			top:200px;
+			left:330px;
+			color:#0ff;
+			font-size:50px;
+			font-weight: bold;
+			text-align:center;
+			line-height:100px;
+			cursor:pointer;
+			font-family:'楷体';
+		}
+		.mz{
+			display:block;
+			width:100%;
+			height:100%;
+		}
+
+	</style>
+	<script src='jquery.js'></script>
+</head>
+<body>
+	<div class="main">
+		<div class="div1">
+			<span class='mz'>点我开始点名</span>
+		</div>
+	</div>	
+</body>
+<script>
+	names=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','4','0','9','6','3','1','8','5','7','2'];	
+	$('.mz').toggle(
+		function(){
+			sobj=setInterval(function(){
+				index=Math.floor(Math.random()*names.length);
+				val=names[index];
+				$('.mz').css({'color':'#f0f'}).html(val);
+			},10);
+		},
+		function(){
+			$(this).html(val+'<br>开始点名');
+			$('.mz').css({'color':'#0ff'});
+			clearInterval(sobj);
+		}
+	);
+</script>
+</html>

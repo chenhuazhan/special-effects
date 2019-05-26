@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>树形插件</title>
+    <link rel="stylesheet" href="assets/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="assets/css/tree.css" media="all" />
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="vm">
+        <div class="layui-elem-field">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">树形插件</label>
+                    <div class="layui-input-block">
+                        <item v-bind:tree='treeData' id='tree'></item>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 添加节点 -弹窗-->
+        <div class="layui-row" id="addNodelayer" style="display: none;margin-top: 30px">
+            <form class="layui-form" action="" method="post" enctype="multipart/form-data" id="formid1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">节点名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" required lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <span class="layui-btn" lay-submit lay-filter="addDataBtn">确认添加</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 编辑编辑 -弹窗-->
+        <div class="layui-row" id="editNodelayer" style="display: none;margin-top: 30px">
+            <form class="layui-form" action="" method="post" enctype="multipart/form-data" id="formid2">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="className" v-model='name' required lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <span class="layui-btn" lay-submit lay-filter="editDataBtn">确认修改</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <template id='treeTemplate'>
+        <ul class="tree-box">
+            <li class="tree-item" v-for='(v,i) in tree'> 
+                <div class="tree-info-box">
+                    <i  class="layui-icon" :class="[ tree[i].open ? 'layui-icon-triangle-r' :' layui-icon-triangle-d']" v-if="isFolder(v)" @click="toggle(i)"></i>
+                    <i v-else  class="layui-icon layui-icon-file"></i>
+                    <span :data-id="i" class="title-name"  @click="changeCheck(i)" >{{v.name}}</span> 
+                    <div class="tree-btn-group">
+                        <span class="add-node-btn node-btn" @click="addNode(i)"> <i class="layui-icon layui-icon-add-1"></i> 添加下一级</span>
+                        <span class="edit-node-btn node-btn" @click="editNode(i)"> <i class="layui-icon layui-icon-edit"></i> 编辑</span>
+                        <span class="del-node-btn node-btn" @click="delNode(i)"> <i class="layui-icon layui-icon-delete"></i> 删除</span>
+                    </div> 
+                </div>
+                <item v-bind:tree='v.child' v-show="tree[i].open" style="margin-left: 20px;"></item>
+            </li>
+        </ul> 
+    </template>
+</body>
+<script type="text/javascript" src="assets/layui/layui.js"></script>
+<script type="text/javascript" src="assets/js/vue.min.js"></script>
+<script type="text/javascript" src="assets/js/tree.js"></script>
+
+</html>
